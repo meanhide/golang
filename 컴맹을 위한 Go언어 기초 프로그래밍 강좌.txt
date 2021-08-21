@@ -1,0 +1,892 @@
+컴맹을 위한 Go언어 기초 프로그래밍 강좌
+
+9-Go의 변수
+ 강의 구성 : 변수, 연산자, 조건문, 반복문 예제, 배열, 구조체, 함수
+ 
+ package main
+
+import "fmt"
+
+func main() {
+	var a int    //변수의 선언
+	var b int    
+	a = 3
+	b = 4
+
+	fmt.Println(a + b)
+}
+
+ 변수의 속성
+  - 이름이 있다. x,y
+  - 값이 있다. a=3, b=4, a+b=7
+  - TYPE이 있다. a=3(정수, int), a=3.1415(실수, float64/32), a="abc"(글자,문자열,string)
+  
+   변수 이름 타입 = 값
+   var a int = 3
+   
+   1의 의미? 트랜지스터 하나가 불이 들어옴(2진수)
+   메모리에 있는 특정 영역에 값이 쓰일 것이다.(어딘지 알수는 없다.) : 메모리번지
+   시작점 : 메모리번지
+   사이즈 : 시작점부터 어디까지? 끝이 어디인가?
+   
+   변수의 속성 : 이름, 값, TYPE, 메모리 주소, 사이즈
+    끝 = 주소 + 사이즈
+	
+   type이 사이즈를 나타내기도 한다
+	정수형
+    int32 = 4byte
+	int64 = 8byte
+	int8 = 1byte
+	int16 = 2byte
+	
+	실수형
+	float32 = 4byte
+	float64 = 8byte
+	
+	bool
+	true/false = 사이즈 특정되지 않음
+
+    문자열	
+	string = 문자열 길이에 따라 사이즈가 달라짐
+	
+	백견이 불여일코
+	
+10-Go의 변수2
+ 
+ 변수 
+  - 값을 담을 수 있는 그릇
+    Range of value가 달라짐
+	int 8 16 32 64(bit) : 1 2 4 8 (byte)
+	int8 : 256-1개 표현 가능 -128~127      -> -0, 0 중복을 - 숫자값으로 하나 더 준다.
+	uint8 : 0~255
+	int16 : 65535개 -32768~32767
+	uint16 : 0~65535
+	int32 : -21억~21억
+	uint32 : 42억까지
+    int64/uint64 : 크다
+	
+	실수형
+	숫자 x 지수 형태
+	31415 / -4
+	float32 4byte : 숫자부분 7개까지 표현가능 3141516 x 10^-6
+	float64 8byte : 15개
+	
+	메모리를 아끼기 위해서 나눠져있다...
+	네트워크 패킷 절약
+	
+	string 문자열 길이와 사이즈가 관계있다.
+	"abc" "abcdef"
+	golang : utf-8 영문/숫자 1byte, 한글 2~3byte
+	각 글자 : rune type(1~3byte)
+	string은 rune의 모임 (string = []rune 
+	
+10-연산자 (operator)
+ 이항연산자 : 항이 두개 add 3,4
+ 단항연산자 : 항이 하나 -A
+ 
+ golang operator 검색
+ 
+ 산술연산자 + - * /
+ 비트연산자 & | ^ (and or xor)
+ 논리연산자 < > == != <= >= && || !
+ 그 외
+ 
+ 비트연산자
+  -비트단위 연산 : 4&2 -> 0100 & 0010 -> 0000
+  
+ (실습)
+ 선언대입문 :  a := 4
+ 
+ var c int
+ c = 5
+ var d = 6
+ var e = 3.14
+ var f int = 8
+ 
+ fmt.Printf("",a,b)
+ "%v",a  : a를 형식에 맞춰 잘 가져와라
+ \n : 개행(한줄띄기)
+ 
+ a^b : xor
+ 
+ ^b : not(다 바꿔주기)
+ 
+ 필요할때 그때그때 쓰면됨
+ 
+ % MoD
+ 나머지 연산
+ 
+ a := 21
+ c := a%10
+ a = a / 10
+ d := a % 10
+ 
+ fmt.Printf("첫번째 수 : %v 두번째 수 : %v\n", c, d)
+ 
+ digit 나누기에 사용
+ 
+ a &^ a : clear연산자 - a=4  0000 모두 0이됨
+ 
+ shift >> <<   (*2 한 효과가 됨)
+ a=4 0100
+ a<<1 1000
+ a>>1 0010
+ 
+ 대입+산술 연산자
+ +=
+ -+
+ *=
+ /+
+ 
+ a = a+2
+ a += 2
+ 
+ a++
+ a+=1
+ a=a+1
+ 
+12-조건연산자와 조건문
+ 조건연산자 bool type
+ var a bool
+ a = true / false
+ 조건연산문의 결과 값
+ 
+ var a bool
+ a = 3 > 4
+ 
+ fmt.Println(a)
+ 
+  -> a = false
+  
+  조건연산자 > < == !=
+  3<4 true
+  3!=4 true
+  3>4 false
+  
+  true && true = true
+ 
+  조건문
+  if문
+  if bool 값 {
+  }
+  - bool 값이 참인경우만 {}실행
+  
+  func man(){
+	if 3 > 4{
+		fmt.Println("참")
+		}
+	fmt.Println("거짓")
+	}
+ 
+  -> "거짓"
+ 
+  if ~ else문
+  
+  if 조건문 {
+    A
+  } else {
+	B
+  }
+  
+  
+  if 조건문 {
+  } else if {
+  } else {
+  }
+  
+  a:=5
+  if a == 3 || a == 4 {
+	fmt.Println("a는 3 또는 4 이다")
+   } else {
+	fmt.Println("a는 3 도 아니고 4 도 아니다.")
+   }
+   fmt.Println("a의 값은 ", a)
+  }
+  
+ 간단한 계산기 프로그램 만들기 실습
+ 
+ go build cal.go
+ 
+13-switch-case 반복문
+  switch x {
+   case 1:
+      ---
+   case 2:
+	  ---
+
+
+ switch 값 {
+   case 결과
+ }
+
+ 값이 참인 경우 실행하고 스위치 케이스를 빠져나옴 
+ 
+ switch (값생략가능- 무조건 실행 : True){
+ }
+ 
+ 
+ 반복문 : for 문 - golang은 while문이 없다.
+ for문의 기본형태
+ 
+ for 조건문(true) {
+ }
+ 
+
+package main
+
+import "fmt"
+
+func main() {
+	i := 0
+	for i < 10 {
+		fmt.Println(i)
+		i++
+	}
+
+	fmt.Println("최종 i 값 :", i)
+}
+
+
+ for 전처리문; 조건문; 후처리{
+   --
+ }
+ 
+
+ func main(){
+  for i:=0; i<10; i++{
+   Println(i)
+   }
+  
+ 변수의 scope개념 : i값이 선언된 괄호 안에서 나와야함
+ 
+
+ func main(){
+  var i int 
+  for i=0; i<10; i++{
+   Println(i)
+   }
+  
+  같은 이름의 변수를 두 번 선언하면, 각각 다른 i로 인식됨
+  
+  
+  for문의 또다른 형태
+  무한루프
+  
+  for (생략=true){
+  }
+  
+  무한루프가 필요한 이유 : break/continue를 이용하기 위함
+  
+  break : 만나면 멈춰라
+  continue : 만나면 건너뛰고 계속 실행
+  
+14-for문 예제
+ 1)구구단
+  - 이중 for문을 활용
+  for i=1; i<=9; i++{
+   for j=1; j<=9; j++{
+    }
+   }
+  
+  5단 건너뛰기
+  
+  if dan == 5 {
+   continue
+   }
+   
+ (숙제) 3 x 2만 출력되지 않는 구구단 만들어보기
+ 
+  package main
+
+import "fmt"
+
+func main() {
+
+	for dan := 1; dan <= 9; dan++ {
+		fmt.Printf("%d단\n", dan)
+
+		for j := 1; j <= 9; j++ {
+			if dan == 3 && j == 2 {
+				continue
+			}
+			fmt.Printf("%d * %d = %d\n", dan, j, dan*j)
+		}
+
+		fmt.Println()
+	}
+}
+
+ (다음) *을 표시하는데 
+  *
+  **
+  ***
+  ****
+  *****
+  
+  출력하는 프로그램
+  
+  (다음)
+   *****
+   ****
+   ***
+   **
+   *
+   
+  (다음)
+  *
+  **
+  ***
+  **
+  *
+  
+  (다음) - 완료
+     *
+	***
+   *****
+  *******
+  
+  (다음)
+     *
+	***
+   *****
+  *******
+   *****
+    ***
+	 *
+	 
+다음 함수 배열 구조체
+
+15-함수
+ 함수는 코딩하는데 매우 중요
+ input -> output
+ 
+ 함수 : 기능 모듈
+ 반복기능을 묶어서 함수로 만들어 호출(call)
+ 
+ 로봇아 라면을 끓여라.
+ 
+ func MakeRamen(Input)
+ return 라면
+ 
+ 함수 만들떄 중요한거 -> 모듈
+ 프로그래머 -> 자동화
+ 반복작업을 싫어함
+ 복붙이아니라 함수를 모듈화해서 사용
+ 함수 : 모듈화 / 분리
+ 
+ add함수 만들기
+ package main
+
+import "fmt"
+
+func add(x int, y int) int {
+	return x + y
+}
+
+func main() {
+	for i := 0; i < 10; i++ {
+		fmt.Printf("%d + %d = %d\n", i, i+2, add(i, i+2))
+	}
+
+}
+
+
+
+ func add(x int, y int) int {
+  return x+y
+  }
+  
+ x, y : input 인자(변수)
+ int : output
+ return : 반환(결과값)
+ 
+ 함수를 호출할 때 값이 복사된다.
+ (참조 복사없이 무조건 복사만 실행)
+ 
+
+16-함수 호출 과정과 재귀호출
+ 함수호출 과정
+  Add()
+  3,2기록
+  call
+  jump
+  변수대입
+  함수수행
+  리턴
+ 
+ 재귀호출 recursive call
+  -함수안에서 다른함수를 호출
+  
+  func f1(){
+	f1()
+	}
+ 무한반복 : 무한히 호출되는걸 방지해야함(탈출코드)
+ 
+ 반복수행, 모든 재귀호출 구문은 반복문으로 바꿀수 있다.
+ 
+ 재귀호출이 쉬운경우 : 피보나치 수열
+ f(0)=1
+ f(1)=1
+ 
+ f(x) = f(x-1) + f(x-2)
+ 
+ 수학정의가 재귀호출 형태로 정의되는 경우가 많다.
+ 
+ 이외에는 대체로 반복문이 쉽다.
+ 
+ 재귀호출은 함수호출과정이
+ 인자기록 -> ip 시작포인트 설정
+ 단계가 많아 느리다
+ 
+ 함수형 언어  haskel lisp scala
+ 재귀호출에 특화된 언어들
+ 
+ 코딩 목표 응집도 높이고 종속성 낮춰서 분리하는거
+ 이거에 기본은 함수다
+ 
+ 함수 call 호출
+ 인자기록
+ ip -> 함수시작점
+ return
+ 
+ 재귀함수는 반복문과 서로 바꿀수 있다.
+ 
+17-배열과 문자열
+ 배열 array
+ var A [10]int
+ 정수형 배열 10개짜리 만들기 (변수선언)
+ 
+ A:=[10]int{1,2,3,.....}
+ 
+ A:=[10]int{}
+ 
+ 
+ len(A) : 배열의 길이
+ 
+ 배열 = 메모리 일정 영역 
+ 메모리주소 길이로 구성
+ 
+ var A [256]int8
+  -> 256byte의 메모리를 가짐
+  
+ string : 문자열도 배열이다
+ 
+ s:="Hello world"
+  [11]byte
+  byte = uint8
+ 
+ ASCII - 1byte
+ UTF-8(golang) - 1~3byte (영문 기본적인 곱하기 나누기 등은 1byte)
+ 
+ 배열 = 메모리
+ 변수 = 메모리
+ 
+ 길이 = 항목길이 x 갯수
+    
+ 문자열 = 배열
+ 문자 : 1~3byte
+ 월 -> 3byte각각이 이상한 글자로 나올 수 있다.
+ 
+ "Hello 월드"
+ []byte
+ []rune - utf-8 
+ 
+18-배열, Radix Sort
+ 배열복사
+ 
+ 1번방법(임시배열방식) 2N 대입
+ 2번방법(직접교환방식) N/2 대입
+ 
+ 두번째 방식이 훨씬 더 빠른 알고리즘 방식이다.
+ 
+ 
+ 정렬 알고리즘
+ RADIX알고리즘
+ 가장 빠르고 단순한 알고리즘
+ 정렬(sort) : 오름차순/내림차순으로 순차적으로 정렬
+ 
+ radix : 모든경우에 사용은 못함. 특정한 경우에 사용할 경우 가장 빠른 알고리즘
+ (N 정렬)
+ 
+ 0~9까지 숫자가 무작위로 있는 배열
+ 원소가 한정되어있고 범위가 작아야함
+ 실수가 들어가면 어려움(3.141592...)
+ 
+ 이름 앞글자만으로 소팅하는 경우 사용
+ 
+19-구조체 structure
+ 여러 변수들을 묶어서 하나로 만든거
+ 
+ type person struct{
+	name string
+	age int
+	}
+	
+ 응집성 증대, 종속성 감소 (cohesive, dependency)
+ 
+ main() {
+	var p person
+	또는
+	p:=person{개똥이:...}
+	
+ ER 다이어그램
+ Entity - Relation Diagram
+ 
+ 성적처리 프로그램
+ 학생 성적 선생님
+ 
+ 선생님 -(입력)-> 학생의 성적
+ 학생 -(조회)-> 자신의 성적
+ 
+ 기능을 더한 golang의 first class
+ 속성 + 기능(메서드)
+ 
+ golang 의 struct = c# java c++ 의 class
+ oop의 근간이됨
+
+ 함수호출은 복사로 일어나는거지 메모리가 같은건 아니다.
+ 
+ ****구조체의 메서드와 일반 펑션의 차이는??? 
+ 
+20-포인터
+  
+ C나 C++에서 애증의 관계
+ 
+ c# 자바는 명시적으론 없지만 묵시적으론 있다.
+ 
+ 포인터의 개념을 알고있으면 다른언어 배울때도 도움이 된다.
+ 
+ golang은 포인터가 있다. 대부분의 현대언어는 없다.
+ 
+ 연산자체가 메모리를 직접 억세스해서 어려운 부분이 있다.
+ 
+ 레퍼런스/밸류, 박싱/언박싱 등의 이해하기 어려운 것들이 나타남
+ 
+ C/C++ 포인터 연산/형변환 등이 어려움
+ 
+ GOLANG : 포인터는 하되 연산/캐스팅 불가
+ 
+ 포인터 : 변수를 가르킴
+ 
+ Var a int
+ 이름 타입 값 메모리주소
+ 
+ 포인터 선언
+ var a int
+ var P *int
+ type T struct {
+ ...
+ }
+ 
+ P=&a -> 변수의 주소를 대입한다.
+ 
+ Var a int
+ Var P *int
+ P=&a
+ 
+ 포인터가 사용되는 이유 
+ 
+ pointer, value -> p.시 알아서 값에 반영해줌(고랭)
+ 
+ 속성을 만들고 기능을 만들때 값은 포인터 형식으로 받아야함
+ 
+ struct s
+ 
+ 포인터는 메모리 주소만 복사되어서 성능상 메모리상 훨씬 유리하다
+ 
+ 포인터를 함수 인자로 받으면 메모리 주소만 복사되고
+ 값을 함수 인자로 받으면 전체 속성이 복사된다
+ 
+ 메서드는 포인터 형태로 만들어야 한다.
+ 
+ 20강 이후 포인터 슬라이스 맵 고 채널 셀렉트 오오피
+ 
+21- 숫자야구를 만들어보자.
+
+숫자야구 1:1게임
+두사람이 각자 0~9사이 숫자 세개를 생각한다.
+겹치지 않는 숫자 세개
+
+순서도
+
+23-Garbage Collector
+ 메모리 쓰레기 청소부
+ 줄여서 GC
+ 
+ 쓰지않는 변수들로 인해 생기는 메모리 가비지
+ 
+ c언어 스택메모리 & 힙메모리 (자료구조)
+ 
+ 
+ 일반적인 메모리는 스택에 할당
+ (int a;)
+ 
+ 힙을 프로그래머가 할당
+ (malloc(사이즈))
+ malloc(100);
+ 
+ free 안시켜주면 memory leak 발생
+  - bug : 프로그래머가 잘짜면 안 생길수 있지만, 흔한 실수
+ 
+ 할당받아놓고 안쓰는애들 모아서 지워주는게 가비지 컬렉터이다.
+ 
+ 쓸모없어지면 쓰레기
+ 
+ func add(){
+  var a int
+  a=3
+  }
+  
+ 괄호밖으로 가면 쓸모가 없어짐
+ 
+ Reference count == 0 이 되는 순간 쓸모가 없어짐
+ 
+ func add()*int{
+  var a int
+  a=3
+  var p *int
+  p=&a
+  return p
+  }
+  
+  v:=add()
+  
+  
+  C언어
+  int* add(){
+   int a;
+   int* p;
+   a=3;
+   p=&a;
+   return p;
+   }
+   
+   int* v=add();
+   
+   잘못된 참조 - 댕글링(이미 사라진 것을 참조하는 문제)
+   
+  
+ 고랭은 레퍼런스 카운트가 있다.
+ 
+ reference count!=0
+ 외딴섬의 경우
+ a -> b
+ b -> c
+ c -> a
+ 이런경우 쓸모없으므로 gc가 삭제함
+ 
+ c/c++ 만 gc가 없고 나머지는 거의 있다.
+ 자바는 gc가 너무 느림
+ 
+ gc는 굉장히 편하다. 귀찮은 일 맡겨놓고, 생산성에 집중할 수 있다.
+ 
+ gc 있는 언어 : managed 언어
+ gc 없는 언어 : unmanaged 언어
+ 
+ gc 있으면 memory leak 해결?
+ -못잡는 leak도 있다.
+
+24-slice
+ 동적배열
+ c++ STL vector
+ java ArrayList
+ C# List
+ Python Slice
+ 
+ 동적배열 <-> 정적배열(fixed size array) [10]int
+ []int
+ 길이가 변화하는 배열
+ 
+ 메모리는 할당받은 사이즈를 넘어서 쓸 수 없다.
+ 
+ 동적배열은 실제 고정배열이 있고 포인트하는 개념.
+ 더 큰 배열이 생기면 포인터가 가르키는 곳을 변경함
+ 
+ 동적배열 선언방법
+ var a []int
+ a:=[]int{1,2,3,4,}
+ a:=make([]int,3)
+ a:=make([]int,0,8) -마지막은 capacity(확보해놓은 공간)
+ 
+ a=[]int{}
+ a=append(a,1)
+ 
+ b:=append(a,3)
+ 같을수도 다를수도 있다.
+ 
+ 공간을 다르게 확보하고싶으면 복사해서 써라.
+ 
+ b:=make([]int, len(a))
+ 
+ for i:=0; i<len(a); i++{
+	b[i] = a[i]
+}
+
+
+25- slice를 slice 해보자
+
+ a []int
+ a[4:6]
+  [StartIdx : EndIdx]
+   (Start ~ End]
+   [0:9] -> (0~8)
+   
+ a := []int{1,2,3,4,5,6,7,8,9,10}
+ b:=a[4:8]
+ [5,6,7]
+ c:=a[4:]
+ d:=a[:4]
+ 
+ 
+뒤에서 하나씩 지워가는 슬라이스
+func RemoveBack(a []int) []int {
+	return a[:len(a)-1]
+
+}
+
+func main() {
+	a := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+
+	for i := 0; i < 5; i++ {
+		a = RemoveBack(a)
+	}
+
+	fmt.Println(a)
+}
+
+
+가장 기본구조
+ - 배열, 링크드 리스트
+ 
+ 스택 큐 트리 그래프 힙 맵
+ 을 만드는 가장 기초적인 리스트
+
+
+보충수업-slice 심화
+ slice와 instance
+ 슬라이스는 고에서 중요한 동적 자료구조이다.
+ 슬라이스/포인터 기본 개념 먼저 익혀야함
+ 
+ 슬라이스도 스트럭처 밸류라고 생각하면됨
+ slice struct
+ -3개의 property로 구성됨
+  pointer * : 시작주소
+  length int : 갯수
+  capability int : 배열이 가지는 최대 갯수
+ 
+ 데이터는 0/1의 모임.
+ 슬라이스는 배열의 시작주소랑 길이를 가지고 있는 것이다.
+ 그리고 capability도 가지고 있다. - 할당된 최대개수
+ 
+ func main(){
+	var s []int
+	
+	s = make([]int, 3)
+	
+	s[0] = 100
+	s[1] = 200
+	s[2] = 300
+	
+	fmt.Println(s, len(s), cap(s))
+}
+ 
+ 슬라이스는 실제
+ 
+ 포인터와 밸류의 구별
+ 포인터 - 메모리 주소 번지(숫자)를 값으로 갖는 변수
+ 
+ var V *int
+ var a int
+ V = &a
+ copy하는 개념(assign)
+ 
+ a=b 같은 포인터 가리킴
+ a:=b 똑같은거 새로 만듬 (copy)
+ 
+보충수업2 - instance
+
+ 포인팅하는 형태로 사용 : reference 형태로 사용
+ 모든 값들을 복사하는 형태 : value type
+ 
+ 그런데, instance는?
+ 
+ object: property + method
+ 
+ oop
+ 기존 프로그래밍 방식은 절차가 중요했다.
+ 프로그램이 복잡해지니까 유지보수가 어려워졌다.
+ 절차보다 오브젝트가 중요하다 -> oop개념
+ subject verb object
+ teacher.input(student)
+ 
+ object간 relation이 중요하다
+ ER : Entity-Relationship
+ 
+ proceduce
+ input(teacher, student)
+ 
+ a.SetName()
+ a -> 인스턴스(객체)
+ 
+ 어떤 객체의 생명체로서의 갠며이 인스턴스이다.
+ 생명체로서 나타내는 추상적 개념이다.
+ 스트럭쳐의 포인터 타입이라고 봐도 된다.
+
+26-linked list
+
+ 연결해서 나열하다.
+ 배열은 붙어있는거고, 링크드 리스트는 연결된 것.
+ 메모리상에 떨어져 있을 수 있다.
+ 연결하는 방법은? 포인터를 이용
+ 한 엘리먼트를 node라고 할때에 다른 node로 포인터를 가지고 연결하는 방법이다.
+ 
+ type Node struct{
+	next *Node
+	val int
+}
+
+맨처음 노드를 알고 있어야 한다.(root node)
+맨 끝의 노드를 알고있어야하고, 그 마지막 노드가 다음 노드를 가리킬 수 있어야 한다.
+func AddNode(root *Node, val int) {
+	var tail *Node
+	tail = root
+	for tail.next != nil {
+		tail=tail.next
+	}
+
+	node := &Node{val:1}
+	tail.next = node
+
+}
+
+
+두번째 방법은 루트랑 테일을 가지고 있는거
+테일을 다음 루트로 바꿔주는 방법
+
+1번 방법 : Add O(N) - 매번 for문 돌아야함
+2번 방법 : Add O(1) - 상수타임
+
+보통은 메모리를 많이쓰면 알고리즘은 빨라짐
+
+링크드리스트에서 리무브 하는법
+ 0->1->2
+ 0->2
+ 1을 가리키는게 없어지면 알아서 gb가 없앤다.
+ 
+맨 앞에 노드를 지우려면? 루트만 바꿔주면 됨.
+맨 끝에 노드를 지우려면? 테일을 바꿔줘야함.
+ - 마지막 앞 노드의 테일을 nil로 바꿔야함.
+ Remove : O(N)
+ 
+ double linked list
+ Remove : O(1)
+ 
+ Big O 법
+  - element갯수와 알고리즘 연산 속도의 상관관계
+  O(1), O(N), O(N^2)
+ 
+27-Double Linked List
+
+
+
+	
